@@ -1,39 +1,40 @@
-﻿using Application.Commands;
-using Domain.Enums;
+﻿using Application.DTOs;
+using Application.Queries;
 using Infrastructure.Persistence;
-using Infrastructure.Services;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Application.Handlers;
 
-public class ApproveLeadHandler : IRequestHandler<ApproveLeadCommand, Unit> 
-{ 
-    private readonly AppDbContext _context; 
-    private readonly IEmailService _email; 
-    public ApproveLeadHandler(AppDbContext context, IEmailService email) 
+public class GetAcceptedLeadsHandler : IRequestHandler<GetAcceptedLeadsQuery, IEnumerable<LeadDto>>
+{
+    private readonly AppDbContext _context;
+
+    public GetAcceptedLeadsHandler(AppDbContext context)
     {
         _context = context;
-        _email = email;
     }
 
-    public async Task<Unit> Handle(ApproveLeadCommand request, CancellationToken cancellationToken)
+    public async Task<IEnumerable<LeadDto>> Handle(GetAcceptedLeadsQuery request, CancellationToken cancellationToken)
     {
-        var lead = await _context.Leads.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
-        if (lead == null) throw new KeyNotFoundException();
-
-        // apply discount if > 500
-        if (lead.Price > 500)
-            lead.Price = lead.Price * 0.9m;
-
-        lead.Status = LeadStatus.Accepted;
-        await _context.SaveChangesAsync(cancellationToken);
-
-        // send notification
-        await _email.SendAsync("vendas@test.com", "Lead Accepted", $"Lead {lead.Id} accepted.");
-        return Unit.Value;
+        return await _context.Leads
+            .Where(x => x.Status == Domain.Enums.LeadStatus.Accepted)
+            .Select(x => new LeadDto
+            {
+                Id = x.Id,
+                ContactFirstName = x.ContactFirstName,
+                DateCreated = x.DateCreated,
+                Suburb = x.Suburb,
+                Category = x.Category,
+                Description = x.Description,
+                Price = x.Price,
+                ContactFullName = x.ContactFullName,
+                ContactPhoneNumber = x.ContactPhoneNumber,
+                ContactEmail = x.ContactEmail
+            }).ToListAsync(cancellationToken);
     }
 }
