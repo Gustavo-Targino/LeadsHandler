@@ -3,6 +3,7 @@ import { Empty } from "../empty";
 import { Spin } from "../spin";
 import { ErrorAlert } from "../error";
 import { useGetAcceptedLeads } from "@/hooks/queries/use-get-accepted-leads";
+import { Card, CardContent } from "../ui/card";
 
 export function AcceptedLeads() {
   const {
@@ -23,10 +24,14 @@ export function AcceptedLeads() {
 
   if (emptyList) {
     return (
-      <Empty
-        title="No accepted Leads yet"
-        description="Once you accepted leads, they'll show up here."
-      />
+      <Card>
+        <CardContent>
+          <Empty
+            title="No accepted Leads yet"
+            description="Once you accepted leads, they'll show up here."
+          />
+        </CardContent>
+      </Card>
     );
   }
 

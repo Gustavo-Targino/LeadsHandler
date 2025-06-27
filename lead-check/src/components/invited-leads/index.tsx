@@ -3,6 +3,7 @@ import { CardLeads } from "../card-leads";
 import { Empty } from "../empty";
 import { Spin } from "../spin";
 import { ErrorAlert } from "../error";
+import { Card, CardContent } from "../ui/card";
 
 export function InvitedLeads() {
   const {
@@ -22,7 +23,13 @@ export function InvitedLeads() {
   }
 
   if (emptyList) {
-    return <Empty />;
+    return (
+      <Card>
+        <CardContent>
+          <Empty />
+        </CardContent>
+      </Card>
+    );
   }
 
   return (
