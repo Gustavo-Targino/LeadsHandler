@@ -1,40 +1,29 @@
-﻿using Application.DTOs;
-using Application.Queries;
+﻿using Application.Commands;
+using Domain.Enums;
 using Infrastructure.Persistence;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Application.Handlers;
-
-public class GetAcceptedLeadsHandler : IRequestHandler<GetAcceptedLeadsQuery, IEnumerable<LeadDto>>
+namespace Application.Handlers
 {
-    private readonly AppDbContext _context;
-
-    public GetAcceptedLeadsHandler(AppDbContext context)
+    public class ApproveLeadHandler : IRequestHandler<ApproveLeadCommand, Unit>
     {
-        _context = context;
-    }
+        private readonly AppDbContext _context;
 
-    public async Task<IEnumerable<LeadDto>> Handle(GetAcceptedLeadsQuery request, CancellationToken cancellationToken)
-    {
-        return await _context.Leads
-            .Where(x => x.Status == Domain.Enums.LeadStatus.Accepted)
-            .Select(x => new LeadDto
-            {
-                Id = x.Id,
-                ContactFirstName = x.ContactFirstName,
-                DateCreated = x.DateCreated,
-                Suburb = x.Suburb,
-                Category = x.Category,
-                Description = x.Description,
-                Price = x.Price,
-                ContactFullName = x.ContactFullName,
-                ContactPhoneNumber = x.ContactPhoneNumber,
-                ContactEmail = x.ContactEmail
-            }).ToListAsync(cancellationToken);
+        public ApproveLeadHandler(AppDbContext context)
+        {
+            _context = context;
+        }
+
+        public async Task<Unit> Handle(ApproveLeadCommand request, CancellationToken cancellationToken)
+        {
+            var lead = await _context.Leads.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken) ?? throw new KeyNotFoundException();
+            lead.Status = LeadStatus.Accepted;
+
+            await _context.SaveChangesAsync(cancellationToken);
+            return Unit.Value;
+        }
     }
 }

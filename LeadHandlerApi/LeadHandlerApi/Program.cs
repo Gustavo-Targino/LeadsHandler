@@ -1,3 +1,5 @@
+using Application.Commands;
+using Application.Handlers;
 using Infrastructure.Persistence;
 using Infrastructure.Services;
 using MediatR;
@@ -27,11 +29,20 @@ builder.Services.AddCors(options =>
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
 
-builder.Services.AddMediatR(cfg =>
-    cfg.RegisterServicesFromAssembly(typeof(Application.Handlers.GetPendingLeadsHandler).Assembly));
 
-// Email service
-builder.Services.AddSingleton<IEmailService, EmailServiceFake>();
+    builder.Services.AddMediatR(cfg =>
+    {
+        cfg.RegisterServicesFromAssemblies(
+            typeof(Application.Commands.ApproveLeadCommand).Assembly,
+            typeof(Application.Commands.DeclineLeadCommand).Assembly,
+            typeof(Application.Handlers.ApproveLeadHandler).Assembly,
+            typeof(Application.Handlers.DeclineLeadHandler).Assembly,
+            typeof(Application.Handlers.GetPendingLeadsHandler).Assembly,
+            typeof(Application.Handlers.GetAcceptedLeadsHandler).Assembly
+
+        );
+    });
+
 
 var app = builder.Build();
 

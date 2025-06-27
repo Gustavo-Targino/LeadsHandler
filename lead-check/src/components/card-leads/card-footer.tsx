@@ -1,4 +1,5 @@
 import { AcceptButton } from "../accept-button";
+import { DeclineButton } from "../decline-button";
 import { Button } from "../ui/button";
 import { LeadInvitation } from "./lead-invitation";
 
@@ -12,9 +13,7 @@ export function CardFooter({ price, lead_id }: CardFooterProps) {
     <div className="flex items-center gap-5 pt-2">
       <div className="flex gap-2">
         <AcceptButton lead_id={lead_id} />
-        <Button variant="secondary" className="cursor-pointer">
-          Decline
-        </Button>
+        <DeclineButton lead_id={lead_id} />
       </div>
       <LeadInvitation price={price} />
     </div>
