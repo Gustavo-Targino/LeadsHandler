@@ -12,6 +12,9 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { toast } from "sonner";
+import type { AxiosError } from "axios";
+import type { ApiErrorResponse } from "@/models/api-error";
+import { getApiErrorMessage } from "@/services/utils";
 
 interface AcceptButtonProps {
   lead_id: string;
@@ -27,6 +30,11 @@ export function AcceptButton({ lead_id }: AcceptButtonProps) {
       {
         onSuccess: () => {
           toast.success("Lead accepted");
+        },
+        onError: (error) => {
+          toast.error("An error occurred while accepting the lead", {
+            description: getApiErrorMessage(error),
+          });
         },
       }
     );
