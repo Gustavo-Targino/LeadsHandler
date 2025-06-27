@@ -1,6 +1,5 @@
 import { AcceptButton } from "../accept-button";
 import { DeclineButton } from "../decline-button";
-import { Button } from "../ui/button";
 import { LeadInvitation } from "./lead-invitation";
 
 interface CardFooterProps {

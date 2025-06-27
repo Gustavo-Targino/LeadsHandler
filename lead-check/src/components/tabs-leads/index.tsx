@@ -4,17 +4,17 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 
 export function LeadsTabs() {
   return (
-    <Tabs defaultValue="account" className="w-full items-center">
+    <Tabs defaultValue="invited" className="w-full items-center">
       <TabsList className="w-full">
-        <TabsTrigger value="account">Invited</TabsTrigger>
-        <TabsTrigger value="password">Accepted</TabsTrigger>
+        <TabsTrigger value="invited">Invited</TabsTrigger>
+        <TabsTrigger value="accepted">Accepted</TabsTrigger>
       </TabsList>
 
       <div className="w-full h-screen">
-        <TabsContent value="account">
+        <TabsContent value="invited">
           <InvitedLeads />
         </TabsContent>
-        <TabsContent value="password">
+        <TabsContent value="accepted">
           <AcceptedLeads />
         </TabsContent>
       </div>

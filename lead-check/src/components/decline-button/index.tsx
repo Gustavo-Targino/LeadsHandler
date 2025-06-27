@@ -47,7 +47,10 @@ export function DeclineButton({ lead_id }: DeclineButtonProps) {
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <Button asChild variant="secondary">
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+          </Button>
+
           <AlertDialogAction
             asChild
             onClick={handleDeclineLead}

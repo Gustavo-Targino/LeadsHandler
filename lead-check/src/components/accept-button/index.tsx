@@ -1,6 +1,5 @@
 import { useAcceptLead } from "@/hooks/mutations/use-approve-lead";
 import { Button } from "../ui/button";
-import { useState } from "react";
 import { AlertDialogTrigger } from "../ui/alert-dialog";
 import {
   AlertDialog,
@@ -48,7 +47,9 @@ export function AcceptButton({ lead_id }: AcceptButtonProps) {
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <Button asChild variant="secondary">
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+          </Button>
           <AlertDialogAction
             asChild
             onClick={handleAcceptLead}
