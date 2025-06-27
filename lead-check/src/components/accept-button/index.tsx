@@ -12,8 +12,6 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { toast } from "sonner";
-import type { AxiosError } from "axios";
-import type { ApiErrorResponse } from "@/models/api-error";
 import { getApiErrorMessage } from "@/services/utils";
 
 interface AcceptButtonProps {
