@@ -75,7 +75,7 @@ export function CardLeads({ lead, acceptedLead }: CardsLeadsProps) {
         {!acceptedLead && (
           <>
             <Separator />
-            <CardFooter price={lead.price} />
+            <CardFooter price={lead.price} lead_id={lead.id} />
           </>
         )}
       </CardContent>
