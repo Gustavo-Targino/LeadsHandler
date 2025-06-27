@@ -25,13 +25,13 @@ namespace Application.Handlers
                 .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
 
             if (lead == null)
-                throw new KeyNotFoundException("Lead not found.");
+                throw new LeadNotFoundException("Lead not found.");
 
             if (lead.Status == LeadStatus.Accepted)
-                throw new LeadAlreadyAcceptedException("This lead has already been accepted.");
+                throw new LeadAlreadyUpdatedException("This lead has already been accepted.");
 
             if (lead.Status == LeadStatus.Declined)
-                throw new InvalidOperationException("Cannot accept a lead that has been declined.");
+                throw new LeadAlreadyUpdatedException("Cannot accept a lead that has been declined.");
 
             if (lead.Price > 500)
             {

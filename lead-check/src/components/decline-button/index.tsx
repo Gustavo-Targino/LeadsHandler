@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { toast } from "sonner";
 import { useDeclineLead } from "@/hooks/mutations/use-decline-lead";
+import { getApiErrorMessage } from "@/services/utils";
 
 interface DeclineButtonProps {
   lead_id: string;
@@ -27,6 +28,11 @@ export function DeclineButton({ lead_id }: DeclineButtonProps) {
       {
         onSuccess: () => {
           toast.success("Lead declined");
+        },
+        onError: (error) => {
+          toast.error("An error occurred while declining the lead", {
+            description: getApiErrorMessage(error),
+          });
         },
       }
     );

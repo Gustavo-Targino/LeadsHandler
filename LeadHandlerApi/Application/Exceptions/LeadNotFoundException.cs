@@ -5,7 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Application.Exceptions;
-public class LeadAlreadyAcceptedException : Exception
+public class LeadNotFoundException : Exception
 {
-    public LeadAlreadyAcceptedException(string message) : base(message) { }
+    public LeadNotFoundException(string message) : base(message) { }
+
 }

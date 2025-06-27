@@ -29,8 +29,8 @@ public class ExceptionMiddleware
 
         response.StatusCode = ex switch
         {
-            LeadAlreadyAcceptedException => (int)HttpStatusCode.BadRequest,
-            InvalidOperationException => (int)HttpStatusCode.BadRequest,
+            LeadNotFoundException => (int)HttpStatusCode.NotFound,
+            LeadAlreadyUpdatedException => (int)HttpStatusCode.Conflict,
             _ => (int)HttpStatusCode.InternalServerError
         };
 
